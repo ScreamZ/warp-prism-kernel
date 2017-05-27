@@ -10,7 +10,7 @@ export class WarpPrismKernel {
     private client: deepstreamIO.Client;
     private config: any;
 
-    constructor(config?: IWarpPrismConfig) {
+    constructor(config: IWarpPrismConfig) {
         process.stdout.write(chalk.green(`
   ----------------------
   |     WARP PRISM     |
@@ -35,7 +35,7 @@ export class WarpPrismKernel {
             };
 
             // Pairing with deepstream
-            this.client.login(null, this.onDeepstreamConnect(resolve, reject));
+            this.client.login(this.config.authData, this.onDeepstreamConnect(resolve, reject));
         });
     }
 

@@ -6,7 +6,7 @@ export declare class WarpPrismKernel {
     private container;
     private client;
     private config;
-    constructor(config?: IWarpPrismConfig);
+    constructor(config: IWarpPrismConfig);
     boot(): Promise<{}>;
     getContainer(): Container.IContainerInterface;
     private onDeepstreamConnect(resolve, reject);

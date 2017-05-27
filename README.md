@@ -103,3 +103,15 @@ Warp prism provide some helpers, you can use it by accessing the service contain
 - **Mailer service** - Provide a way to send e-mail through your application.
 - **Validator service** - Provide a way to validate data that your application receive.
 - **Image service** - Provide a way to validate transform and adapt images that your application receive.
+
+# Kernel configuration
+
+Here are the options you can provide to your kernel on instantiation.
+
+```typescript
+interface IWarpPrismConfig {
+    deepstreamUrl: string; // The endpoint your backend will try to connect to.
+    providersDir?: string; // A path to providers dir. Default: src/providers
+    authData?: any; // Anything that will be passed to deepstream auth. Depends on your implementation.
+}
+```

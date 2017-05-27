@@ -27,6 +27,7 @@
     "@types/nodemailer": "^1.3.32",
     "@types/sharp": "^0.17.1",
     "ava": "^0.19.1",
+    "eslint": "^3.19.0",
     "tslint": "^5.2.0",
     "typescript": "^2.3.1"
   }

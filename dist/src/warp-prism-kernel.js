@@ -23,7 +23,7 @@ class WarpPrismKernel {
                 mailerService: new Container.MailerService(),
                 systemService: new Container.SystemService(),
             };
-            this.client.login(null, this.onDeepstreamConnect(resolve, reject));
+            this.client.login(this.config.authData, this.onDeepstreamConnect(resolve, reject));
         });
     }
     getContainer() {
