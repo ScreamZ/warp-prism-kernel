@@ -1,7 +1,6 @@
 export declare class Provider {
-    name: string;
     procedures: IProcedure[];
-    constructor(namespace: string, procedures: IProcedure[]);
+    constructor(procedures: IProcedure[]);
 }
 export interface IProcedure {
     name: string;

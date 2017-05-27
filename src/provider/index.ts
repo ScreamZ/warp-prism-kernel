@@ -1,13 +1,7 @@
 export class Provider {
-    public name: string;
     public procedures: IProcedure[];
 
-    constructor(namespace: string, procedures: IProcedure[]) {
-        procedures.forEach((el) => {
-            el.name = `${namespace}/${el.name}`;
-        });
-
-        this.name = namespace;
+    constructor(procedures: IProcedure[]) {
         this.procedures = procedures;
     }
 }

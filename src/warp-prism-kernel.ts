@@ -16,8 +16,7 @@ export class WarpPrismKernel {
   |     WARP PRISM     |
   |       1.0.0        |
   | Starting server... |
-  ----------------------
-    `));
+  ----------------------\n`));
 
         this.config = config;
         this.client = deepstream(config.deepstreamUrl);
@@ -55,13 +54,12 @@ export class WarpPrismKernel {
             process.stdout.write("Connection successful !\n");
 
             // Registering provider
-            registerProvider(this.client, this.config.providers);
+            registerProvider(this.client, this.config.providersDir);
 
             process.stdout.write((chalk.green(`
   ----------------------
   | Server initialized |
-  ----------------------
-    `)));
+  ----------------------\n`)));
 
             // Server has been initialized
             resolve();

@@ -25,11 +25,17 @@ Now you need to register custom providers that will fill your needs. Warp prism 
 
 You need to create one file per *"category"* of actions. Below example highlight a set of booking actions, this is standard CRUD operation.
 
-This live in `src/providers/booking.ts` for the demonstration but feel free to use your own file organisation.
+This live in `src/providers/booking.ts` for the demonstration but feel free to use your own file organisation. **BUT** take care of how the system register providers, imagine we have the following : 
+
+- src/
+  - providers/cook.js
+    - subfolder/another-provider.js
+
+First a `cook/actionName` will be registered and then because we have subfolder a `subfolder-another-provider/actionName` will be registered. This is how WarpPrism handle depth.
 
 ```typescript
 // src/providers/booking.ts
-import { Provider } from "warp-prism";
+import { Provider } from "warp-prism-kernel";
 import * as deepstream from 'deepstream.io-client-js';
 
 const bookAction = (data, response: deepstreamIO.RPCResponse) => {
@@ -38,24 +44,23 @@ const bookAction = (data, response: deepstreamIO.RPCResponse) => {
   response.send('Not implemented yet !');
 }
 
-export default new Provider('booking', [
+export default new Provider([
   { name: "saveBook", handler: bookAction }
 ]);
 ```
 
-Then we create a *"export barrel"* which regroup all your providers in one export that can be imported in any file. This allows you to have only one place where you register new providers.
+The kernel will auto-register your providers. Default looking to a `src/providers`directory, but you can override this behavior by setting the `providersDir` option on the kernel instantiation.
 
 ```typescript
-// src/providers/index.ts
-import { Provider } from 'warp-prism';
-import bookingProvider from './booking';
+import * as path from "path";
+import { WarpPrismKernel } from "warp-prism-kernel";
 
-export default [
-    bookingProvider,
-];
+// Export application kernel for further uses.
+export const kernel = new WarpPrismKernel({
+  deepstreamUrl: "wss://154.deepstreamhub.com?apiKey=e07b9fd3-5569-468f-807b-cee020668042",
+  providersDir: path.resolve("dist", "providers"), // Override providers dir to /dist/providers, useful when using compiled sources like typescript.
+});
 ```
-
-Finally you need to inject this barrel on your WarpPrismKernel instantiation as shown above.
 
 Here we are ! Once we will have booted our kernel, we will be able to use this provider on client side that will be named `booking/saveBook`.
 

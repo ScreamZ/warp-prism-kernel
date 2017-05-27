@@ -12,8 +12,7 @@ class WarpPrismKernel {
   |     WARP PRISM     |
   |       1.0.0        |
   | Starting server... |
-  ----------------------
-    `));
+  ----------------------\n`));
         this.config = config;
         this.client = deepstream(config.deepstreamUrl);
     }
@@ -36,12 +35,11 @@ class WarpPrismKernel {
                 reject();
             }
             process.stdout.write("Connection successful !\n");
-            provider_registrer_1.registerProvider(this.client, this.config.providers);
+            provider_registrer_1.registerProvider(this.client, this.config.providersDir);
             process.stdout.write((chalk.green(`
   ----------------------
   | Server initialized |
-  ----------------------
-    `)));
+  ----------------------\n`)));
             resolve();
         };
     }
