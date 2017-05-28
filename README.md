@@ -18,7 +18,18 @@ Warp Prism is a back-end framework which allows your to build real time applicat
 - **NodeJS** >= 6.0.0
 - **A deepstream.io server.** Feel also free to use deepstreamhub.
 
+# Introduction
+
+Deepstream is a realtime server where clients are connected to communicate between each others and dispatch some actions, it can be mutating objects, asking for some RPC, whatever...
+
+In this architecture, there is (at least) two kinds of clients :
+
+- **Consumers clients** - Which will most of time subscriber to resources, and update some. This still remain on your own implementation.
+- **Providers clients** - Those will provide data to the consumers clients and feed the data stream. **This is that kind of clients that what Warp Prism Kernel aim to simplificy**.
+
 # Setup
+
+A classic WPK (Warp Prism Kernel) app is just a sum of multiple providers that will do whatever you needs. Think of *Controllers* of usual M.V.C. apps. All of this wrapped by a root kernel which will provide additionnal helpers in order to validate data, check system charge and many other things.
 
 ## Register custom providers
 Now you need to register custom providers that will fill your needs. Warp prism give you some helper in order to simplify this task.
