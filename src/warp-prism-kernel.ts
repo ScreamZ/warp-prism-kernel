@@ -5,6 +5,10 @@ import { IWarpPrismConfig } from "../config/warp-prism-config";
 import * as Container from "./container";
 import { registerProvider } from "./provider/provider-registrer";
 
+import * as includeAll from "include-all";
+import * as _ from "lodash";
+import * as path from "path";
+
 export class WarpPrismKernel {
     private container: Container.IContainerInterface;
     private client: deepstreamIO.Client;
@@ -27,12 +31,16 @@ export class WarpPrismKernel {
      */
     public boot(): Promise<{}> {
         return new Promise((resolve, reject) => {
-            // Build container
-            this.container = {
-                imageService: new Container.ImageService(),
-                mailerService: new Container.MailerService(),
-                systemService: new Container.SystemService(),
-            };
+            // Build the container loading file in the service folder
+            const servicesFiles = includeAll({
+                dirname: path.join(__dirname, "services"),
+                filter: /(.+-service)\.js$/,
+            });
+            this.container = _.reduce(servicesFiles, (acc, exportedData, filename) => {
+                const serviceName = `${filename.match(/(.+)-service/)[1]}Service`;
+
+                return { ...acc, [serviceName]: new exportedData[_.upperFirst(serviceName)]() };
+            }, {});
 
             // Pairing with deepstream
             this.client.login(this.config.authData, this.onDeepstreamConnect(resolve, reject));
@@ -44,6 +52,10 @@ export class WarpPrismKernel {
      */
     public getContainer(): Container.IContainerInterface {
         return this.container;
+    }
+
+    public getDeepstream(): deepstreamIO.Client {
+        return this.client;
     }
 
     private onDeepstreamConnect(resolve, reject) {
@@ -59,7 +71,7 @@ export class WarpPrismKernel {
             process.stdout.write((chalk.green(`
   ----------------------
   | Server initialized |
-  ----------------------\n`)));
+                    ----------------------\n`)));
 
             // Server has been initialized
             resolve();
