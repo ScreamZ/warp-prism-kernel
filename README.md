@@ -11,7 +11,7 @@
 </p>
 <br>
 
-Warp Prism is a back-end framework which allows your to build real time applications in a easier way.
+Warp Prism is a back-end framework which allows you to build real time applications in a easier way.
 
 # Requirements
 
@@ -22,27 +22,25 @@ Warp Prism is a back-end framework which allows your to build real time applicat
 
 Deepstream is a realtime server where clients are connected to communicate between each others and dispatch some actions, it can be mutating objects, asking for some RPC, whatever...
 
+<p align="center">
+  <img src="https://deepstream.io/tutorials/core/active-data-providers/data-providers.png" alt="warp prism architecture">
+</p>
+
 In this architecture, there is (at least) two kinds of clients :
 
-- **Consumers clients** - Which will most of time subscriber to resources, and update some. This still remain on your own implementation.
-- **Providers clients** - Those will provide data to the consumers clients and feed the data stream. **This is that kind of clients that what Warp Prism Kernel aim to simplificy**.
+- **Consumers clients** - Which will most of time subscribe to resources, and update some. This still remain on your own implementation.
+- **Providers clients** - Those will provide data to the consumers clients and feed the data stream. **This is that kind of clients that Warp Prism Kernel aim to simplify**.
+
+In the previous schema, clients A, B and C are **consumers clients**, they subscribe to stocks rate changes where LSE and NASDAQ are **providers clients**, they feed the stream with new rates each seconds and to do that, they could have used WPK.
 
 # Setup
 
-A classic WPK (Warp Prism Kernel) app is just a sum of multiple providers that will do whatever you needs. Think of *Controllers* of usual M.V.C. apps. All of this wrapped by a root kernel which will provide additionnal helpers in order to validate data, check system charge and many other things.
+A classic WPK (Warp Prism Kernel) app is just a sum of multiple providers that will do whatever you needs. Think of *Controllers* of usual M.V.C. apps. All of these providers wrapped by a root kernel which allows to use additionnal helpers in order to validate data, check system charge and many other things.
 
 ## Register custom providers
-Now you need to register custom providers that will fill your needs. Warp prism give you some helper in order to simplify this task.
+Now you need to register custom providers that will fill your needs. Warp prism give you some helpers in order to simplify this task.
 
-You need to create one file per *"category"* of actions. Below example highlight a set of booking actions, this is standard CRUD operation.
-
-This live in `src/providers/booking.ts` for the demonstration but feel free to use your own file organisation. **BUT** take care of how the system register providers, imagine we have the following : 
-
-- src/
-  - providers/cook.js
-    - subfolder/another-provider.js
-
-First a `cook/actionName` will be registered and then because we have subfolder a `subfolder-another-provider/actionName` will be registered. This is how WarpPrism handle depth.
+You need to create one file per *"category"* of actions. Below example highlight a set of booking actions, this is standard C.R.U.D. operations.
 
 ```typescript
 // src/providers/booking.ts
@@ -73,6 +71,14 @@ export const kernel = new WarpPrismKernel({
 });
 ```
 
+Take care of how the system register providers, imagine we have the following directories structure: 
+
+- src/
+  - providers/cook.js
+    - subfolder/another-provider.js
+
+First a `cook/actionName` provider will be registered and then, because we have subfolder, a `subfolder-another-provider/actionName` provider will be registered. This is how WarpPrism handle folding depth.
+
 Here we are ! Once we will have booted our kernel, we will be able to use this provider on client side that will be named `booking/saveBook`.
 
 ## Instantiate a kernel
@@ -91,7 +97,7 @@ export const kernel = new WarpPrismKernel({
   providers: providers
 });
 ```
-Don't forget to import your providers before. This is explained just below. You can import the kernel everywhere to access the service container among others.
+You can import the kernel everywhere to access the service container among others.
 Now we just need to boot the kernel and our app will be running.
 
 ```typescript
